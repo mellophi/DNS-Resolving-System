@@ -15,10 +15,13 @@ void dns2proxy(int sockfd){
 
     // Receiving the request from client 
     int bytes_recv = recv(sockfd, buffer, sizeof(buffer), 0);
-    int type = buffer[0] - '0';
-    string request = string(buffer + 1);
-    request = request.substr(0, request.length()-1);
+    string s = string(buffer);
+    int length = stoi(s.substr(0,2));
+    int type = s[2] - '0';
+    string request = string(buffer + 3);
+    request = request.substr(0, length-1);
 
+    cout << "Length: " << length << "\n";
     cout << "Type of the request: " << type << "\n";
     cout << "Request: " << request << "\n";
 

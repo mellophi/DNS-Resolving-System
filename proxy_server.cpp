@@ -86,8 +86,12 @@ string proxy2dns(char *send_buffer){
     string response = string(recv_buffer + 1);
 
     // If the requested DOMAIN/IP exists in the DNS then update the cache
-    string first = send_buffer[0] - '0' == 1 ? string(send_buffer + 1) : response;
-    string second = send_buffer[0] - '0' == 1 ? response : string(send_buffer + 1); 
+    string s = string(send_buffer);
+    int length = stoi(s.substr(0,2));
+    string request = string(send_buffer + 3);
+    request = request.substr(0, length-1);
+    string first = send_buffer[0] - '0' == 1 ? request : response;
+    string second = send_buffer[0] - '0' == 1 ? response : request; 
     
     if(type == 3){
         if(cache.size() < CACHE_SIZE){
@@ -125,10 +129,13 @@ void proxy2client(int sockfd){
 
     // Receiving the request from client 
     int bytes_recv = recv(sockfd, buffer, sizeof(buffer), 0);
-    int type = buffer[0] - '0';
-    string request = string(buffer + 1);
-    request = request.substr(0, request.length()-1);
+    string s = string(buffer);
+    int length = stoi(s.substr(0,2));
+    int type = s[2] - '0';
+    string request = string(buffer + 3);
+    request = request.substr(0, length-1);
 
+    cout << "Length: " << length << "\n";
     cout << "Type of the request: " << type << "\n";
     cout << "Request: " << request << "\n";
 

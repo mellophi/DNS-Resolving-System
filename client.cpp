@@ -50,6 +50,7 @@ int main(int argc, char const *argv[]){
     string request, type;
     cin >> request >> type;
     request = !request.find("www.") ? type + request.substr(4) : type + request;
+    request = request.length() < 10 ? "0" + to_string(request.length()) + request : to_string(request.length()) + request;
     cout << "Final request message: " << request << "\n";
 
     // Sending the message
@@ -70,7 +71,7 @@ int main(int argc, char const *argv[]){
         exit(0);
     }
     else{
-        cout << "The requested address: " << response + 1;
+        cout << "The requested address: " << response + 1 << "\n";
     }
 
     // Free the socket
