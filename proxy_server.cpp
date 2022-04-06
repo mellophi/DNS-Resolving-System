@@ -127,6 +127,7 @@ void proxy2client(int sockfd){
     int bytes_recv = recv(sockfd, buffer, sizeof(buffer), 0);
     int type = buffer[0] - '0';
     string request = string(buffer + 1);
+    request = request.substr(0, request.length()-1);
 
     cout << "Type of the request: " << type << "\n";
     cout << "Request: " << request << "\n";
