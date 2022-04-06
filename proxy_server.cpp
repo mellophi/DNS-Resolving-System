@@ -203,7 +203,8 @@ int main(int argc, char *argv[]){
     }
 
     listen:
-    int new_sockfd = 0, connection_cnt = 0, proxy_addr_size = sizeof(proxy_addr);
+    int new_sockfd = 0, connection_cnt = 0;
+    socklen_t proxy_addr_size = sizeof(proxy_addr);
     if((new_sockfd = accept(sockfd, (struct sockaddr*) &proxy_addr, &proxy_addr_size)) < 0){
         cout << "Accept failed!\n";
     }
