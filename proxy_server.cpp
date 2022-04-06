@@ -135,15 +135,13 @@ void proxy2client(int sockfd){
     int entry_cnt = 0; // number of entries in the cache already present
     ifstream in;
     in.open("proxy_cache.txt", ios::in);
-
-    while(!in.eof()){
-        string first, second;
-        in >> first >> second;
+    string first, second;
+    while(in >> first >> second){
         if(first == "" || second == "") continue;
         cache.push_back({first, second});
         entry_cnt ++;
     }
-
+    in.close();
     // debug(cache, entry_cnt);
     // Search if the request from client exists in the proxy cache
     // Type 1: Request for IP -> Search for mapping DOMAIN
