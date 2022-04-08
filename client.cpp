@@ -48,6 +48,7 @@ int main(int argc, char const *argv[]){
     // Send DNS request message
     // Get the message
     string request, type;
+    cout << "<Request Type>\n";
     cin >> request >> type;
     request = !request.find("www.") ? type + request.substr(4) : type + request;
     request = request.length() < 10 ? "0" + to_string(request.length()) + request : to_string(request.length()) + request;

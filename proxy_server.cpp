@@ -8,33 +8,6 @@
 
 using namespace std;
 
-// To debug the code
-void __print(int x) {cerr << x;}
-void __print(long x) {cerr << x;}
-void __print(long long x) {cerr << x;}
-void __print(unsigned x) {cerr << x;}
-void __print(unsigned long x) {cerr << x;}
-void __print(unsigned long long x) {cerr << x;}
-void __print(float x) {cerr << x;}
-void __print(double x) {cerr << x;}
-void __print(long double x) {cerr << x;}
-void __print(char x) {cerr << '\'' << x << '\'';}
-void __print(const char *x) {cerr << '\"' << x << '\"';}
-void __print(const string &x) {cerr << '\"' << x << '\"';}
-void __print(bool x) {cerr << (x ? "true" : "false");}
-
-template<typename T, typename V>
-void __print(const pair<T, V> &x) {cerr << '{'; __print(x.first); cerr << ','; __print(x.second); cerr << '}';}
-template<typename T>
-void __print(const T &x) {int f = 0; cerr << '{'; for (auto &i: x) cerr << (f++ ? "," : ""), __print(i); cerr << "}";}
-void _print() {cerr << "]\n";}
-template <typename T, typename... V>
-void _print(T t, V... v) {__print(t); if (sizeof...(v)) cerr << ", "; _print(v...);}
-#ifndef ONLINE_JUDGE
-#define debug(x...) cerr << "[" << #x << "] = ["; _print(x)
-#else
-#define debug(x...)
-#endif
 
 // Constant IP and PORT of DNS known to the proxy
 static const string DNS_IP = "127.0.0.1";
@@ -90,8 +63,8 @@ string proxy2dns(char *send_buffer){
     int length = stoi(s.substr(0,2));
     string request = string(send_buffer + 3);
     request = request.substr(0, length-1);
-    string first = send_buffer[0] - '0' == 1 ? request : response;
-    string second = send_buffer[0] - '0' == 1 ? response : request; 
+    string first = send_buffer[2] - '0' == 1 ? request : response;
+    string second = send_buffer[2] - '0' == 1 ? response : request; 
     
     if(type == 3){
         if(cache.size() < CACHE_SIZE){
@@ -106,7 +79,6 @@ string proxy2dns(char *send_buffer){
             cache[CACHE_SIZE-1][0] = first;
             cache[CACHE_SIZE-1][1] = second;
         }
-        debug(cache);
         // Write to the proxy_cache.txt
         ofstream out;
         out.open("proxy_cache.txt", ofstream::out | ofstream::trunc);
