@@ -10,8 +10,7 @@ using namespace std;
 
 
 // Constant IP and PORT of DNS known to the proxy
-static const string DNS_IP = "127.0.0.1";
-static const int DNS_PORT = 4200;
+static const char DNS_IP[INET_ADDRSTRLEN] = "127.0.0.1";
 static const int CACHE_SIZE = 3;
 
 vector<vector<string>> cache;
@@ -27,11 +26,16 @@ string proxy2dns(char *send_buffer){
     else{
         cout << "Socket to connet to DNS created.\n";
     }
-
+    
+    // Enter the DNS IP and PORT
+    int DNS_PORT = 0;
+    cout << "<DNS_PORT>\n";
+    cin >> DNS_PORT;
+    
     // Connecting to socket of DNS
     struct sockaddr_in dns_addr;
     dns_addr.sin_family = AF_INET;
-    dns_addr.sin_addr.s_addr = inet_addr(DNS_IP.c_str());
+    dns_addr.sin_addr.s_addr = inet_addr(DNS_IP);
     dns_addr.sin_port = htons(DNS_PORT);
 
     if(connect(sockfd, (struct sockaddr*) &dns_addr, sizeof(dns_addr)) < 0){
